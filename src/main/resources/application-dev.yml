@@ -1,0 +1,10 @@
+# Local development profile: in-memory H2 instead of PostgreSQL.
+#   mvn spring-boot:run -Dspring-boot.run.profiles=dev
+spring:
+  datasource:
+    url: jdbc:h2:mem:integrity;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: create-drop

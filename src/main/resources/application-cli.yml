@@ -1,0 +1,19 @@
+# Activated automatically when the first program argument is sign | verify | keygen | help.
+# The web server is disabled and an in-memory H2 database satisfies the JPA layer (the CLI itself reads/writes JSON files).
+spring:
+  main:
+    web-application-type: none
+    banner-mode: "off"
+    log-startup-info: false
+  datasource:
+    url: jdbc:h2:mem:cli;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+logging:
+  level:
+    root: WARN
+    com.noexperience.integrity: WARN

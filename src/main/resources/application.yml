@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: video-integrity-verifier
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/integrity}
+    username: ${DB_USER:integrity}
+    password: ${DB_PASSWORD:integrity}
+  jpa:
+    open-in-view: false
+    hibernate:
+      # "update" is convenient for a first run; use validate + a migration tool (Flyway/Liquibase) in production.
+      ddl-auto: ${JPA_DDL_AUTO:update}
+  servlet:
+    multipart:
+      max-file-size: ${MAX_UPLOAD_SIZE:2GB}
+      max-request-size: ${MAX_UPLOAD_SIZE:2GB}
+
+server:
+  port: ${SERVER_PORT:8080}
+
+integrity:
+  ffmpeg:
+    binary: ${FFMPEG_PATH:ffmpeg}
+    probe-binary: ${FFPROBE_PATH:ffprobe}
+    timeout-seconds: ${FFMPEG_TIMEOUT_SECONDS:300}
+    temp-dir: ${INTEGRITY_TEMP_DIR:}
+  segmentation:
+    segment-seconds: ${SEGMENT_SECONDS:5}
+    sample-fps: ${SAMPLE_FPS:2}
+    analysis-width: ${ANALYSIS_WIDTH:320}
+  verifier:
+    hamming-threshold: ${HAMMING_THRESHOLD:10}
+    duration-tolerance-seconds: ${DURATION_TOLERANCE_SECONDS:0.5}
+    max-alignment-cells: ${MAX_ALIGNMENT_CELLS:4000000}
+  keys:
+    algorithm: ${SIGNATURE_ALGORITHM:ed25519}
+    private-key-path: ${INTEGRITY_PRIVATE_KEY:./keys/integrity-private.pem}
+    public-key-path: ${INTEGRITY_PUBLIC_KEY:./keys/integrity-public.pem}
+    keystore-path: ${INTEGRITY_KEYSTORE:}
+    keystore-password: ${INTEGRITY_KEYSTORE_PASSWORD:}
+    key-alias: ${INTEGRITY_KEY_ALIAS:integrity}
+    auto-generate: ${INTEGRITY_KEY_AUTOGENERATE:true}
+
+logging:
+  level:
+    com.noexperience.integrity: ${LOG_LEVEL:INFO}
